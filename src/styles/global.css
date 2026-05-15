@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputCity {
+  font-family: inherit;
+  font-size: 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #b1b0b0;
+  border-radius: 4px;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  border-radius: 20px;
+}
+
+.inputCity:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 5px rgba(0, 119, 204, 0.3);
+}
