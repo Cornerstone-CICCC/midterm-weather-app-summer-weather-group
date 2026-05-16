@@ -1,6 +1,6 @@
 import type { WeatherData } from '../types/weather';
 
-const BASE_URL = 'https://api.open-meteo.com/v1/forecast';
+const BASE_URL = '';
 
 export async function getWeather(
   latitude: number,
