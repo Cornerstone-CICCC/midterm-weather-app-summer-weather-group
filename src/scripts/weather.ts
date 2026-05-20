@@ -1,33 +1,41 @@
 import { getUserLocation } from '../services/geo';
 import { getWeather } from '../services/weatherApi';
 
-async function init() {
-  const status = document.querySelector('#status');
+const status =
+  document.querySelector('#weather-info');
 
-  if (!status) {
-    console.error('Status element not found');
-    return;
-  }
+async function updateWeather(
+  latitude: number,
+  longitude: number
+) {
+
+  if (!status) return;
 
   try {
-    const location = await getUserLocation();
 
-    console.log('LOCATION:', location);
+    status.innerHTML =
+      'Loading weather...';
 
     const weather = await getWeather(
-      location.latitude,
-      location.longitude
+      latitude,
+      longitude
     );
 
     console.log('WEATHER:', weather);
 
     status.innerHTML = `
-        <p>🌡 Temperature: ${weather.current.temperature_2m}°C</p>
-        <p>💨 Wind: ${weather.current.wind_speed_10m} km/h</p>
-        <p>☁️ Code: ${weather.current.weather_code}</p>
-        `;
+      <p>🌡 Temperature:
+      ${weather.current.temperature_2m}°C</p>
+
+      <p>💨 Wind:
+      ${weather.current.wind_speed_10m} km/h</p>
+
+      <p>☁️ Code:
+      ${weather.current.weather_code}</p>
+    `;
 
   } catch (error) {
+
     console.error(error);
 
     status.textContent =
@@ -35,4 +43,31 @@ async function init() {
   }
 }
 
+async function init() {
+
+  try {
+
+    const location =
+      await getUserLocation();
+
+    console.log(
+      'LOCATION:',
+      location
+    );
+
+    await updateWeather(
+      location.latitude,
+      location.longitude
+    );
+
+  } catch (error) {
+
+    console.error(error);
+  }
+}
+
 init();
+
+// ⭐ IMPORTANT
+(window as any).updateWeather =
+  updateWeather;

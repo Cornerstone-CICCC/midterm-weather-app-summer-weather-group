@@ -1,9 +1,19 @@
+---
+import SearchBar from './SearchBar.astro';
+import CurrentWeather from './CurrentWeather.astro';
+---
+
 <div id="app">
+
   <h1>Weather App</h1>
 
-  <p id="status">
-    Loading weather...
-  </p>
+  <SearchBar />
+
+  <CurrentWeather />
+
 </div>
 
-<script type="module" src="/src/scripts/weather.ts"></script>
+<script
+  type="module"
+  src="/src/scripts/weather.ts">
+</script>
