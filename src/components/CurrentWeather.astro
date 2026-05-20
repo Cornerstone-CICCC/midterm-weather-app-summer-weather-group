@@ -1,9 +1,92 @@
+---
+---
+
 <div class="current-weather">
+  <p class="current-weather__city" id="city-name">--</p>
 
-  <h2>Current Weather</h2>
-
-  <div id="weather-info">
-    Loading weather...
+  <div class="current-weather__main">
+    <span class="current-weather__temp" id="temperature">--</span>
+    <span class="current-weather__condition" id="condition">--</span>
   </div>
 
+  <ul class="current-weather__details">
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Feels like</span>
+      <span class="current-weather__detail-value" id="feels-like">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Humidity</span>
+      <span class="current-weather__detail-value" id="humidity">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Wind</span>
+      <span class="current-weather__detail-value" id="wind-speed">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Precipitation</span>
+      <span class="current-weather__detail-value" id="precipitation">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">UV Index</span>
+      <span class="current-weather__detail-value" id="uv-index">--</span>
+    </li>
+  </ul>
 </div>
+
+<style lang="scss" is:global>
+  @use '@/styles/abstracts/variables' as *;
+
+  .current-weather {
+    background: $surface-color;
+    color: $text-color;
+    border-radius: $radius-md;
+    padding: $spacing-xl;
+    box-shadow: $shadow-md;
+
+    &__city {
+      font-size: $font-size-lg;
+      color: $text-muted;
+      margin-bottom: $spacing-sm;
+    }
+
+    &__main {
+      display: flex;
+      align-items: baseline;
+      gap: $spacing-md;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__temp {
+      font-size: $font-size-2xl;
+      font-weight: bold;
+    }
+
+    &__condition {
+      font-size: $font-size-md;
+      color: $text-muted;
+    }
+
+    &__details {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-sm $spacing-lg;
+    }
+
+    &__detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+    }
+
+    &__detail-label {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+
+    &__detail-value {
+      font-size: $font-size-md;
+      font-weight: bold;
+    }
+  }
+</style>

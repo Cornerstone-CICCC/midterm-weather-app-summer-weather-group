@@ -1,73 +1,48 @@
-import { getUserLocation } from '../services/geo';
-import { getWeather } from '../services/weatherApi';
+import { getUserLocation } from '@/services/geo';
+import { getWeather } from '@/services/weatherApi';
+import { WEATHER_CODE_MAP } from '@/constants';
+import type { Location } from '@/types/location';
+import { setText } from '@/utils/setText';
 
-const status =
-  document.querySelector('#weather-info');
-
-async function updateWeather(
-  latitude: number,
-  longitude: number
-) {
-
-  if (!status) return;
-
+export async function updateWeather({ latitude, longitude, city }: Location) {
   try {
+    const weather = await getWeather(latitude, longitude);
+    const { current, hourly } = weather;
 
-    status.innerHTML =
-      'Loading weather...';
+    const now = new Date(current.time);
+    const hourIndex = hourly.time.findIndex((t) => new Date(t) >= now);
+    const i = hourIndex === -1 ? 0 : hourIndex;
 
-    const weather = await getWeather(
-      latitude,
-      longitude
+    setText('city-name', city ?? '--');
+    setText('temperature', `${current.temperature_2m}°C`);
+    setText('condition', WEATHER_CODE_MAP[current.weather_code] ?? '--');
+    setText('feels-like', `${current.apparent_temperature}°C`);
+    setText('humidity', `${current.relative_humidity_2m}%`);
+    setText('wind-speed', `${current.wind_speed_10m} km/h`);
+    setText('precipitation', hourly.precipitation_probability[i] != null
+      ? `${hourly.precipitation_probability[i]}%`
+      : 'N/A'
     );
-
-    console.log('WEATHER:', weather);
-
-    status.innerHTML = `
-      <p>🌡 Temperature:
-      ${weather.current.temperature_2m}°C</p>
-
-      <p>💨 Wind:
-      ${weather.current.wind_speed_10m} km/h</p>
-
-      <p>☁️ Code:
-      ${weather.current.weather_code}</p>
-    `;
-
+    setText('uv-index', hourly.uv_index[i] != null
+      ? String(hourly.uv_index[i])
+      : 'N/A'
+    );
   } catch (error) {
-
     console.error(error);
-
-    status.textContent =
-      'Failed to load weather';
+    setText('condition', 'Failed to load weather');
   }
 }
 
 async function init() {
-
   try {
-
-    const location =
-      await getUserLocation();
-
-    console.log(
-      'LOCATION:',
-      location
-    );
-
-    await updateWeather(
-      location.latitude,
-      location.longitude
-    );
-
+    const location = await getUserLocation();
+    await updateWeather(location);
   } catch (error) {
-
     console.error(error);
   }
 }
 
 init();
 
-// ⭐ IMPORTANT
-(window as any).updateWeather =
-  updateWeather;
+// ⭐ IMPORTANT | Expose the updateWeather function to the global scope
+(window as unknown as { updateWeather: typeof updateWeather }).updateWeather = updateWeather;
