@@ -5,7 +5,7 @@ export type CityResult = {
   country: string;
 };
 
-const API_KEY = 'pk_9+SpM0gwCTyk8Avr/geJ9l3CMQY3cnc4nduaLc1BLs4=';
+const API_KEY = '';
 
 export async function searchCities(
   query: string
