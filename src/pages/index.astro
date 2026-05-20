@@ -1,8 +1,10 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import App from '../components/App.astro';
+import MainLayout from '@/layouts/MainLayout.astro';
+import App from '@/components/App.astro';
+import Weather from '@/components/Weather.astro';
 ---
 
 <MainLayout>
   <App />
+  <Weather latitude={49.2827} longitude={-123.1207} city="Vancouver" />
 </MainLayout>

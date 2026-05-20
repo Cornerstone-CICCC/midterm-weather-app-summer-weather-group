@@ -1,0 +1,39 @@
+---
+import type { Location } from '@/types/location'
+import { fetchCurrentWeather } from '@/scripts/currentWeather'
+
+const { latitude, longitude, city } = Astro.props as Location
+
+let loading = false;
+let weather = null;
+let error: string | null = null;
+
+try {
+  loading = true;
+  weather = await fetchCurrentWeather(latitude, longitude);
+} catch (error: unknown) {
+  error = error instanceof Error ? error.message : 'Failed to load weather';
+} finally {
+  loading = false;
+}
+---
+
+<div class="weather">
+  <h2>Current Weather in {city}</h2>
+  {loading ? (
+    <p>Loading...</p>
+  ) : error ? (
+    <p class="error">{error}</p>
+  ) : weather && (
+    <ul>
+      <li>Temperature: {weather.temperature}°C</li>
+      <li>Feels like: {weather.feelsLike}°C</li>
+      <li>Humidity: {weather.humidity}%</li>
+      <li>Condition: {weather.condition}</li>
+      <li>Wind: {weather.windSpeed} km/h</li>
+      <li>Time of day: {weather.isDay ? 'Day' : 'Night'}</li>
+      <li>Precipitation probability: {weather.precipitationProbability ?? 'N/A'}%</li>
+      <li>UV index: {weather.uvIndex ?? 'N/A'}</li>
+    </ul>
+  )}
+</div>
