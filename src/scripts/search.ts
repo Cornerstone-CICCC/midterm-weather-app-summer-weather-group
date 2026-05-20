@@ -1,11 +1,10 @@
-import { searchCities } from '../services/placekitApi';
+import { searchCities } from '@/services/placekitApi';
 import {
   getFavorites,
   addFavorite
-} from '../utils/storage';
-
-import type { FavoriteCity } from '../utils/storage';
-
+} from '@/utils/storage';
+import type { FavoriteCity } from '@/utils/storage';
+import type { Location } from '@/types/location';
 
 const input =
   document.querySelector<HTMLInputElement>('#city-search');
@@ -74,6 +73,12 @@ if (input && results) {
 
       item.appendChild(star);
 
+      item.addEventListener('click', () => {
+        (window as unknown as { updateWeather: ({ latitude, longitude, city }: Location) => Promise<void> }).updateWeather(
+          { latitude: city.lat, longitude: city.lng, city: city.name }
+        );
+      });
+
       results.appendChild(item);
     });
   });
@@ -87,10 +92,9 @@ if (dropdown) {
 
     const city = JSON.parse(target.value);
 
-    (window as any).updateWeather(
-  city.lat,
-  city.lng
-);
+    (window as unknown as { updateWeather: ({ latitude, longitude, city }: Location) => Promise<void> }).updateWeather(
+      { latitude: city.lat, longitude: city.lng, city: city.name }
+    );
   });
 }
 
