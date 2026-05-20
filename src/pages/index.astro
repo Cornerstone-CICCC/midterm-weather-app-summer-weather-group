@@ -20,9 +20,212 @@ import '../styles/global.css'
 				Logo
 			</div>
 			<div class="searchBar">
-				<input class="inputCity" placeholder="Search city"/>
-				<div class="swithcThemes">Light/Dark</div>
+				<input class="inputCity" placeholder="Search city" id="searchBar"/>
+				<div class="switchThemes" id="switchTheme">Light/Dark</div>
+			</div>
+		</div>
+		<div class="mainContent">
+			<div class="infoBar">
+				<div class="cityAndFav">
+					<div class="cityName">City name</div>
+					<div class="makeFav" id="makeFav">Fav</div>
+				</div>
+				<div class="favorites">
+					<div class="menu-container">
+  						<details class="menu-item">
+    						<summary>Favorites</summary>
+    							<div class="menu-content" id="favoritesDropdown">
+      								<div class="cityItem" id = "Semantic Elements" data-index="100">Semantic Elements<button class="removeCity">X</button></div>
+      								<div class="cityItem" id = "Modern CSS Layouts">Modern CSS Layoutss<button class="removeCity">X</button></div>
+      								<div class="cityItem" id = "JavaScript ES6+">JavaScript ES6+<button class="removeCity">X</button></div>
+    							</div>
+  						</details>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fiveDays hidden">
+			<div class="eachDay" id="day1" data-index="0">
+				<input class="radioDay" type="radio" id="day1Radio" name="radioCB">
+				<label class="radioLabel" for="day1Radio">
+					<div>Day</div>
+					<div>Date</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>				
+			</div>
+			<div class="eachDay" id="day2" data-index="1">
+				<input class="radioDay" type="radio" id="day2Radio" name="radioCB">
+				<label class="radioLabel" for="day2Radio">
+					<div>Day</div>
+					<div>Date</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachDay" id="day3" data-index="2">
+				<input class="radioDay" type="radio" id="day3Radio" name="radioCB">
+				<label class="radioLabel" for="day3Radio">
+					<div>Day</div>
+					<div>Date</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachDay" id="day4" data-index="3">
+				<input class="radioDay" type="radio" id="day4Radio" name="radioCB">
+				<label class="radioLabel" for="day4Radio">
+					<div>Day</div>
+					<div>Date</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+
+			</div>
+			<div class="eachDay" id="day5" data-index="4">
+				<input class="radioDay" type="radio" id="day5Radio" name="radioCB">
+				<label class="radioLabel" for="day5Radio">
+					<div>Day</div>
+					<div>Date</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+
+		</div>
+		<div class="eightIntervals hidden">
+			<div class="eachInterval" id="int1" data-index="10">
+				<input class="radioDay" type="radio" id="int1Radio" name="radioIntCB">
+				<label class="radioLabel" for="int1Radio">
+					<div>Midnight</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int2" data-index="11">
+				<input class="radioDay" type="radio" id="int2Radio" name="radioIntCB">
+				<label class="radioLabel" for="int2Radio">
+					<div>Antelucan - 3</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int3" data-index="12">
+				<input class="radioDay" type="radio" id="int3Radio" name="radioIntCB">
+				<label class="radioLabel" for="int3Radio">
+					<div>Morning - 6</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int4" data-index="13">
+				<input class="radioDay" type="radio" id="int4Radio" name="radioIntCB">
+				<label class="radioLabel" for="int4Radio">
+					<div>Forenoon - 9</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int5" data-index="14">
+				<input class="radioDay" type="radio" id="int5Radio" name="radioIntCB">
+				<label class="radioLabel" for="int5Radio">
+					<div>Noon</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int6" data-index="15">
+				<input class="radioDay" type="radio" id="int6Radio" name="radioIntCB">
+				<label class="radioLabel" for="int6Radio">
+					<div>Afternoon - 15</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int7" data-index="16">
+				<input class="radioDay" type="radio" id="int7Radio" name="radioIntCB">
+				<label class="radioLabel" for="int7Radio">
+					<div>Evening - 18</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
+			</div>
+			<div class="eachInterval" id="int8" data-index="17">
+				<input class="radioDay" type="radio" id="int8Radio" name="radioIntCB">
+				<label class="radioLabel" for="int8Radio">
+					<div>Dusk - 21</div>
+					<div>small pic</div>
+					<div>short desc</div>
+					<div>temp</div>
+				</label>
 			</div>
 		</div>
 	</body>
+	<script>
+import { config, string } from "astro:schema";
+import { fade } from "astro:transitions";
+
+		document.addEventListener("DOMContentLoaded", function() {
+
+			//switch themes
+			const btnSwitchTheme = document.getElementById("switchTheme");
+			btnSwitchTheme?.addEventListener("click", function(){
+				const currentScheme = document.documentElement.style.colorScheme;
+  				const newScheme = currentScheme === 'dark' ? 'light' : 'dark';
+				document.documentElement.style.colorScheme = newScheme;
+			});
+
+			//add cities to fav list
+			const favList = document.getElementById("favoritesDropdown");
+			let opt = "";
+			//search bar press enter
+			const searchBar = document.getElementById("searchBar") as HTMLInputElement;
+			searchBar?.addEventListener("keypress", (e)=>{
+				if (e.key === "Enter") {
+					//??alert user that city is added to fav list??
+					//confirm("press");
+					let search = searchBar.value;
+					opt = `<div class="cityItem">${search}`;
+					opt += `<button class="removeCity">X</button></div>`;
+					//favList.innerHTML += opt;
+					addToList(search, opt);
+            		//runSearch();
+        		}
+			});
+			document.addEventListener('click', (event) => {
+  			if (event.target.matches('.removeCity')) {
+				let button = event.target as HTMLButtonElement;
+				button.parentElement?.remove();
+  			}
+			});
+			function addToList(addElement, opt):void{
+				let add = true;
+				const elements = document.querySelectorAll('.cityItem');
+				elements.forEach(element => {
+					if(element.textContent.slice(0, -1)==addElement){
+						alert("City added");
+						add = false;
+						return;
+					}
+				});
+				if(add)
+					favList.innerHTML += opt;
+				else
+					return;
+			}
+		});
+		
+	</script>
 </html>

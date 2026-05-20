@@ -1,3 +1,24 @@
+:root {
+  color-scheme: light dark;
+
+  /*Define colors for both modes*/
+  --bg-color: light-dark(#14a0b3, #1a4b32);
+  --text-color: light-dark(#268294, #6446e9);
+  --bg-cityInfio: light-dark(rgb(45, 13, 90), rgb(73, 243, 34));
+  --border-color: light-dark(#262626, #b1b0b0);
+  --bg-FiveDays: light-dark(#511892, #e82323);
+  --border-eachDay: light-dark(#444, #eee);
+  --bg-eightInt: light-dark(#74a5ff, #511892);
+  --bg-seleced: light-dark(#ffffff, #000000);
+  --bg-seleced-hover: light-dark(#000000, #fff);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  cursor: context-menu;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -17,7 +38,7 @@
   box-sizing: border-box;
   width: 100%;
   padding: 10px 12px;
-  border: 2px solid #b1b0b0;
+  border: 2px solid var(--border-color);
   border-radius: 4px;
   outline: none;
   transition:
@@ -29,4 +50,235 @@
 .inputCity:focus {
   border-color: #0077cc;
   box-shadow: 0 0 5px rgba(0, 119, 204, 0.3);
+}
+
+.switchThemes:hover {
+  cursor: pointer;
+}
+
+.mainContent {
+  margin: 2%;
+  padding: 4%;
+  background-color: var(--bg-cityInfio);
+  border-radius: 8px;
+}
+
+.infoBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /*   */
+}
+
+.cityAndFav {
+  display: flex;
+  gap: 1rem;
+}
+
+.makeFav:hover {
+  cursor: pointer;
+}
+
+.favs {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: #893434;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+}
+
+.favs:hover {
+  background-color: #a44242;
+  border-color: #45a049;
+}
+
+.favs:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+}
+
+.favs option {
+  padding: 10px;
+  background-color: rgb(134, 90, 90);
+  color: #333;
+}
+
+.favorites {
+  position: relative;
+  display: inline-block;
+}
+
+.fiveDays {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--bg-FiveDays);
+  margin: 4%;
+  padding: 1%;
+  border-radius: 8px;
+  /*display: none;*/
+}
+
+.eachDay {
+  margin: 3%;
+  border: 2px solid var(--border-eachDay);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eachDay:hover {
+  background-color: var(--bg-seleced-hover);
+}
+
+.eachDay:has(> input:checked) {
+  background-color: var(--bg-seleced);
+}
+
+.radioDay {
+  display: none;
+}
+
+.radioLabel {
+  justify-items: center;
+}
+
+.eightIntervals {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: var(--bg-eightInt);
+  margin: 6%;
+  padding: 1%;
+  border-radius: 8px;
+  /*display: none;*/
+}
+
+.eachInterval {
+  margin: 1%;
+  padding: 1%;
+  border: 2px solid var(--border-eachDay);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eachInterval:hover {
+  background-color: var(--bg-seleced-hover);
+}
+
+.hidden {
+  display: none;
+}
+/*
+.eachInterval:has(> input:checked) {
+  background-color: var(--bg-seleced);
+}*/
+
+/*//////////////////////////////////*/
+
+/* Base container constraints */
+.menu-container {
+  width: 320px;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: visible;
+  /* background-color: #ffffff;*/
+}
+/* The interactive header block */
+summary {
+  padding: 16px 20px;
+  list-style: none; /* Standard way to hide default browser arrow */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: var(--text-color);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Safari-specific fix to hide the default browser arrow */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom interactive arrow indicator */
+summary::after {
+  content: '→';
+  font-size: 14px;
+  color: #64748b;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Hover feedback on headers */
+summary:hover {
+  background-color: #9b9d9e;
+}
+
+/* Styling changes when a menu item is currently expanded */
+details[open] summary {
+  background-color: #b4bfcb;
+  color: #2563eb;
+}
+
+details[open] summary::after {
+  transform: rotate(90deg); /* Rotates the custom arrow downward */
+  color: #2563eb;
+}
+
+.menu-content {
+  position: absolute;
+  background-color: #a7a6a6;
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: calc(100% + 2px);
+  z-index: 100;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-content div {
+  padding: 10px 20px 10px 32px;
+  text-decoration: none;
+  color: #475569;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  border-radius: 0 0 12px 12px;
+}
+
+.menu-content div:hover {
+  background-color: #9fa3a8;
+  color: #2563eb;
+  padding-left: 24px; /* Subtle indent slide animation on hover */
+}
+
+.cityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /*   */
 }
