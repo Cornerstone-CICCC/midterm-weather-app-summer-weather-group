@@ -5,7 +5,7 @@ export type CityResult = {
   country: string;
 };
 
-const API_KEY = '';
+const API_KEY = import.meta.env.PUBLIC_PLACEKIT_API_KEY as string;
 
 export async function searchCities(
   query: string
