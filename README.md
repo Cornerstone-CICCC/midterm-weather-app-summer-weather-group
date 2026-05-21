@@ -3,6 +3,8 @@
 A weather application built with Astro, TypeScript, and SCSS.  
 Search for cities using PlaceKit autocomplete, save favorites, and view real-time weather data from Open-Meteo.
 
+[live URL](https://summer-weather.netlify.app/)
+
 ## 🚀 Getting Started
 
 ### 1. Install dependencies
