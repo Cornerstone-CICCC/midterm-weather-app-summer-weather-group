@@ -36,18 +36,18 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
     const now = new Date(current.time)
     const hourIndex = hourly.time.findIndex((t) => new Date(t) >= now)
     const index = hourIndex === -1 ? 0 : hourIndex
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 
     setText('city-name', city ?? '--')
     setText('weather-time', timeStr)
     setText('temperature', `${current.temperature_2m}°C`)
-    setText('temp-max', daily.temperature_2m_max[0] != null ? `H: ${daily.temperature_2m_max[0]}°C` : '--')
-    setText('temp-min', daily.temperature_2m_min[0] != null ? `L: ${daily.temperature_2m_min[0]}°C` : '--')
-    setText('condition', WEATHER_CODE_MAP[current.weather_code] ?? '--')
+    setText('temp-max', `${daily.temperature_2m_max[0]}°C`)
+    setText('temp-min', `${daily.temperature_2m_min[0]}°C`)
+    setText('condition', WEATHER_CODE_MAP[current.weather_code])
     setText('humidity', `${current.relative_humidity_2m}%`)
     setText('wind-speed', `${current.wind_speed_10m} km/h`)
-    setText('precipitation', hourly.precipitation_probability[index] != null ? `${hourly.precipitation_probability[index]}%` : 'N/A')
-    setText('uv-index', hourly.uv_index[index] != null ? String(hourly.uv_index[index]) : 'N/A')
+    setText('precipitation', `${hourly.precipitation_probability[index]}%`)
+    setText('uv-index', `${hourly.uv_index[index]}`)
 
     const group = getWeatherGroup(current.weather_code)
 

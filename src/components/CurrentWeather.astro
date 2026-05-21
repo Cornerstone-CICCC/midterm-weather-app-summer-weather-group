@@ -2,23 +2,28 @@
 ---
 
 <div class="current-weather">
+
   <div class="current-weather__header">
     <p class="current-weather__city" id="city-name">--</p>
-    <p class="current-weather__time" id="weather-time">--</p>
   </div>
 
-  <div class="current-weather__main">
-    <div class="current-weather__temp-group">
-      <span class="current-weather__temp" id="temperature">--</span>
-      <div class="current-weather__temp-range">
-        <span class="current-weather__temp-max" id="temp-max">--</span>
-        <span class="current-weather__temp-min" id="temp-min">--</span>
-      </div>
+  <div class="current-weather__temperatures">
+    <div class="current-weather__temp-item">
+      <span class="current-weather__temp-label">Low</span>
+      <span class="current-weather__temp-value" id="temp-min">--</span>
     </div>
-    <img class="current-weather__icon" id="weather-icon" src="" alt="" />
+    <span class="current-weather__temp" id="temperature">--</span>
+    <div class="current-weather__temp-item">
+      <span class="current-weather__temp-label">High</span>
+      <span class="current-weather__temp-value" id="temp-max">--</span>
+    </div>
   </div>
 
-  <p class="current-weather__condition" id="condition">--</p>
+  <div class="current-weather__info">
+    <p class="current-weather__time" id="weather-time">--</p>
+    <img class="current-weather__icon" id="weather-icon" src="" alt="" />
+    <p class="current-weather__condition" id="condition">--</p>
+  </div>
 
   <ul class="current-weather__details">
     <li class="current-weather__detail-item">
@@ -38,6 +43,7 @@
       <span class="current-weather__detail-value" id="uv-index">--</span>
     </li>
   </ul>
+
 </div>
 
 <style lang="scss" is:global>
@@ -45,6 +51,9 @@
 
   .current-weather {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: $text-color;
     border-radius: $radius-md;
     padding: $spacing-xl;
@@ -53,6 +62,7 @@
     background-size: cover;
     background-position: center;
     overflow: hidden;
+    gap: $spacing-lg;
 
     &::before {
       content: '';
@@ -68,32 +78,31 @@
 
     &__header {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: $spacing-md;
+      gap: $spacing-md;
+      width: 100%;
     }
 
     &__city {
       font-size: $font-size-lg;
       font-weight: bold;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 1px;
+        background-color: $text-color;
+        margin: $spacing-sm auto 0;
+      }
     }
 
-    &__time {
-      font-size: $font-size-sm;
-      color: $text-muted;
-    }
-
-    &__main {
+    &__temperatures {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: $spacing-sm;
-    }
-
-    &__temp-group {
-      display: flex;
-      align-items: baseline;
-      gap: $spacing-md;
+      justify-content: center;
+      gap: $spacing-xl;
     }
 
     &__temp {
@@ -101,43 +110,56 @@
       font-weight: bold;
     }
 
-    &__temp-range {
+    &__temp-item {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: $spacing-xs;
+    }
+
+    &__temp-label {
       font-size: $font-size-sm;
+      color: $text-muted;
+    }
+
+    &__temp-value {
+      font-size: $font-size-md;
+      font-weight: bold;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__time {
+      font-size: $font-size-md;
+      color: $text-color;
     }
 
     &__icon {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       filter: brightness(0) invert(1);
     }
 
-    &__temp-max {
-      color: $warning-color;
-    }
-
-    &__temp-min {
-      color: $primary-color;
-    }
-
     &__condition {
-      font-size: $font-size-md;
+      font-size: $font-size-sm;
       color: $text-muted;
-      margin-bottom: $spacing-lg;
     }
 
     &__details {
       list-style: none;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-sm $spacing-lg;
+      gap: $spacing-md $spacing-xl;
     }
 
     &__detail-item {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: $spacing-xs;
     }
 
