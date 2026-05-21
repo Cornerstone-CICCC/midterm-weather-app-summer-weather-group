@@ -2,18 +2,22 @@
 ---
 
 <div class="current-weather">
-  <p class="current-weather__city" id="city-name">--</p>
+  <div class="current-weather__header">
+    <p class="current-weather__city" id="city-name">--</p>
+    <p class="current-weather__time" id="weather-time">--</p>
+  </div>
 
   <div class="current-weather__main">
     <span class="current-weather__temp" id="temperature">--</span>
-    <span class="current-weather__condition" id="condition">--</span>
+    <div class="current-weather__temp-range">
+      <span class="current-weather__temp-max" id="temp-max">--</span>
+      <span class="current-weather__temp-min" id="temp-min">--</span>
+    </div>
   </div>
 
+  <p class="current-weather__condition" id="condition">--</p>
+
   <ul class="current-weather__details">
-    <li class="current-weather__detail-item">
-      <span class="current-weather__detail-label">Feels like</span>
-      <span class="current-weather__detail-value" id="feels-like">--</span>
-    </li>
     <li class="current-weather__detail-item">
       <span class="current-weather__detail-label">Humidity</span>
       <span class="current-weather__detail-value" id="humidity">--</span>
@@ -37,23 +41,50 @@
   @use '@/styles/abstracts/variables' as *;
 
   .current-weather {
-    background: $surface-color;
+    position: relative;
     color: $text-color;
     border-radius: $radius-md;
     padding: $spacing-xl;
     box-shadow: $shadow-md;
+    background-color: $surface-color;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: $radius-md;
+    }
+
+    & > * {
+      position: relative;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-md;
+    }
 
     &__city {
       font-size: $font-size-lg;
+      font-weight: bold;
+    }
+
+    &__time {
+      font-size: $font-size-sm;
       color: $text-muted;
-      margin-bottom: $spacing-sm;
     }
 
     &__main {
       display: flex;
-      align-items: baseline;
-      gap: $spacing-md;
-      margin-bottom: $spacing-lg;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $spacing-sm;
     }
 
     &__temp {
@@ -61,9 +92,26 @@
       font-weight: bold;
     }
 
+    &__temp-range {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: $spacing-xs;
+      font-size: $font-size-sm;
+    }
+
+    &__temp-max {
+      color: $warning-color;
+    }
+
+    &__temp-min {
+      color: $primary-color;
+    }
+
     &__condition {
       font-size: $font-size-md;
       color: $text-muted;
+      margin-bottom: $spacing-lg;
     }
 
     &__details {

@@ -5,7 +5,6 @@ const BASE_URL = 'https://api.open-meteo.com/v1/forecast';
 
 const CURRENT_PARAMS = [
   'temperature_2m',           // Air temperature at 2 meters above ground (°C)
-  'apparent_temperature',     // Feels-like temperature combining wind chill, humidity and solar radiation (°C)
   'relative_humidity_2m',     // Relative humidity at 2 meters above ground (%)
   'weather_code',             // Weather condition as a numeric WMO code
   'wind_speed_10m',           // Wind speed at 10 meters above ground (km/h)
@@ -17,6 +16,11 @@ const HOURLY_PARAMS = [
   'uv_index',                  // UV index at the surface, considering clouds
 ];
 
+const DAILY_PARAMS = [
+  'temperature_2m_max', // Maximum daily air temperature at 2 meters above ground (°C)
+  'temperature_2m_min', // Minimum daily air temperature at 2 meters above ground (°C)
+];
+
 export async function getWeather(
   latitude: number,
   longitude: number
@@ -26,6 +30,7 @@ export async function getWeather(
   url.searchParams.append('longitude', String(longitude));
   url.searchParams.append('current', CURRENT_PARAMS.join(','));
   url.searchParams.append('hourly', HOURLY_PARAMS.join(','));
+  url.searchParams.append('daily', DAILY_PARAMS.join(','));
   url.searchParams.append('forecast_days', '1');
   url.searchParams.append('timezone', 'auto');
 
