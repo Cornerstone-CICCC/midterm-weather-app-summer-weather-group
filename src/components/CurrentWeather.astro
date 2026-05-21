@@ -8,11 +8,14 @@
   </div>
 
   <div class="current-weather__main">
-    <span class="current-weather__temp" id="temperature">--</span>
-    <div class="current-weather__temp-range">
-      <span class="current-weather__temp-max" id="temp-max">--</span>
-      <span class="current-weather__temp-min" id="temp-min">--</span>
+    <div class="current-weather__temp-group">
+      <span class="current-weather__temp" id="temperature">--</span>
+      <div class="current-weather__temp-range">
+        <span class="current-weather__temp-max" id="temp-max">--</span>
+        <span class="current-weather__temp-min" id="temp-min">--</span>
+      </div>
     </div>
+    <img class="current-weather__icon" id="weather-icon" src="" alt="" />
   </div>
 
   <p class="current-weather__condition" id="condition">--</p>
@@ -55,7 +58,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.2);
       border-radius: $radius-md;
     }
 
@@ -87,6 +90,12 @@
       margin-bottom: $spacing-sm;
     }
 
+    &__temp-group {
+      display: flex;
+      align-items: baseline;
+      gap: $spacing-md;
+    }
+
     &__temp {
       font-size: $font-size-2xl;
       font-weight: bold;
@@ -95,9 +104,14 @@
     &__temp-range {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
       gap: $spacing-xs;
       font-size: $font-size-sm;
+    }
+
+    &__icon {
+      width: 80px;
+      height: 80px;
+      filter: brightness(0) invert(1);
     }
 
     &__temp-max {
