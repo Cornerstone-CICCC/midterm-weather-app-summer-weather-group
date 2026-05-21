@@ -1,0 +1,57 @@
+
+// --COLORS
+
+$primary-color: #3b82f6;
+$secondary-color: #1e293b;
+
+$background-color: #0f172a;
+$surface-color: #111827;
+
+$text-color: #ffffff;
+$text-muted: #94a3b8;
+
+$success-color: #22c55e;
+$error-color: #ef4444;
+$warning-color: #f59e0b;
+
+
+// -- SPACING
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+
+
+// --TYPOGRAPHY
+
+$font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+$font-size-sm: 12px;
+$font-size-md: 16px;
+$font-size-lg: 20px;
+$font-size-xl: 28px;
+$font-size-2xl: 36px;
+
+
+//--BREAKPOINTS
+
+$mobile: 375px;
+$tablet: 768px;
+$desktop: 1440px;
+
+
+//--BORDER RADIUS
+
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-lg: 20px;
+$radius-full: 999px;
+
+// --SHADOWS
+
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.2);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
