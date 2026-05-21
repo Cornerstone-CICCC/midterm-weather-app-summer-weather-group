@@ -1,8 +1,4 @@
----
----
-
 <div class="current-weather">
-
   <div class="current-weather__header">
     <p class="current-weather__city" id="city-name">--</p>
   </div>
@@ -43,7 +39,6 @@
       <span class="current-weather__detail-value" id="uv-index">--</span>
     </li>
   </ul>
-
 </div>
 
 <style lang="scss" is:global>
@@ -58,23 +53,8 @@
     border-radius: $radius-md;
     padding: $spacing-xl;
     box-shadow: $shadow-md;
-    background-color: $surface-color;
-    background-size: cover;
-    background-position: center;
     overflow: hidden;
     gap: $spacing-lg;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: $radius-md;
-    }
-
-    & > * {
-      position: relative;
-    }
 
     &__header {
       display: flex;

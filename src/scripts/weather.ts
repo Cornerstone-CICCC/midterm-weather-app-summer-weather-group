@@ -11,11 +11,7 @@ function getWeatherGroup(code: WeatherCode): WeatherGroup | null {
 }
 
 function setBackgroundImage(group: WeatherGroup, isDay: IsDay) {
-  const card = document.querySelector<HTMLElement>('.current-weather')
-
-  if (!card) return
-
-  card.style.backgroundImage = `url(${WEATHER_IMAGE_MAP[group][isDay]})`
+  document.body.style.backgroundImage = `url(${WEATHER_IMAGE_MAP[group][isDay]})`
 }
 
 function setWeatherIcon(code: WeatherCode, isDay: IsDay) {
@@ -36,7 +32,7 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
     const now = new Date(current.time)
     const hourIndex = hourly.time.findIndex((t) => new Date(t) >= now)
     const index = hourIndex === -1 ? 0 : hourIndex
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
 
     setText('city-name', city ?? '--')
     setText('weather-time', timeStr)
@@ -69,7 +65,7 @@ async function init() {
   }
 }
 
-init()
+init();
 
-// ⭐ IMPORTANT | Expose the updateWeather function to the global scope
-;(window as unknown as { updateWeather: typeof updateWeather }).updateWeather = updateWeather
+// Expose the updateWeather function to the global scope
+(window as unknown as { updateWeather: typeof updateWeather }).updateWeather = updateWeather

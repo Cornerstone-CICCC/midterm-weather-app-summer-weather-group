@@ -4,7 +4,25 @@
   box-sizing: border-box;
 }
 
+@keyframes bg-scroll {
+  from { background-position: center top; }
+  to   { background-position: center bottom; }
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #f4f4f4;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  animation: bg-scroll 30s linear infinite alternate;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 0;
+    pointer-events: none;
+  }
 }
