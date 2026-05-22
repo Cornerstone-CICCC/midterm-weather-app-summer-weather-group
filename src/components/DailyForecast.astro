@@ -1,0 +1,49 @@
+---
+// src/components/DailyForecast.astro
+// Mock data representing the 5-day forecast array from Open-Meteo
+const days = [
+  { date: 'Monday', temp: '18°C', condition: 'Sunny', id: 0 },
+  { date: 'Tuesday', temp: '15°C', condition: 'Rainy', id: 1 },
+  { date: 'Wednesday', temp: '16°C', condition: 'Cloudy', id: 2 },
+  { date: 'Thursday', temp: '21°C', condition: 'Sunny', id: 3 },
+  { date: 'Friday', temp: '19°C', condition: 'Partly Cloudy', id: 4 },
+];
+---
+
+<div class="daily-forecast-container">
+  {days.map((day) => (
+    <button class="day-card" data-day-id={day.id}>
+      <h3>{day.date}</h3>
+      <div class="icon">{day.condition}</div>
+      <p>{day.temp}</p>
+    </button>
+  ))}
+</div>
+
+<style lang="scss">
+  // Use the global SCSS tokens your captain set up here
+  .daily-forecast-container {
+    display: flex;
+    gap: 1rem;
+    // Add your desktop 1440px styles and mobile 375px media queries
+  }
+</style>
+
+
+<script>
+  const dayCards = document.querySelectorAll('.day-card');
+  
+  dayCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      const selectedDayId = card.getAttribute('data-day-id');
+      
+      // Custom Event to notify the HourlyForecast component to update
+      const event = new CustomEvent('dayChanged', { detail: { dayId: selectedDayId } });
+      window.dispatchEvent(event);
+      
+      // Optional: Add an 'active' class for styling the selected card
+      dayCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+</script>
