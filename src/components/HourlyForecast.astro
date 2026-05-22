@@ -1,0 +1,95 @@
+---
+// src/components/HourlyForecast.astro
+
+// Mocking 3-hour data for Day 0 (e.g., Monday) and Day 1 (e.g., Tuesday)
+// In a real API, Open-Meteo gives you a 24-hour array; you just grab every 3rd hour.
+const hourlyDataByDay = [
+  {
+    dayId: 0,
+    hours: [
+      { time: '12 AM', temp: '10°C' }, { time: '3 AM', temp: '9°C' },
+      { time: '6 AM', temp: '11°C' },  { time: '9 AM', temp: '14°C' },
+      { time: '12 PM', temp: '18°C' }, { time: '3 PM', temp: '17°C' },
+      { time: '6 PM', temp: '15°C' },  { time: '9 PM', temp: '12°C' }
+    ]
+  },
+  {
+    dayId: 1,
+    hours: [
+      { time: '12 AM', temp: '11°C' }, { time: '3 AM', temp: '11°C' },
+      { time: '6 AM', temp: '10°C' },  { time: '9 AM', temp: '12°C' },
+      { time: '12 PM', temp: '15°C' }, { time: '3 PM', temp: '14°C' },
+      { time: '6 PM', temp: '13°C' },  { time: '9 PM', temp: '11°C' }
+    ]
+  },
+  // You can repeat this pattern to mock data for days 2, 3, and 4!
+];
+---
+
+<div class="hourly-forecast-container">
+  <h2>3-Hour Range Forecast</h2>
+
+  {hourlyDataByDay.map((dayForecast) => (
+    /* We add a class 'is-hidden' by default to all days except Day 0.
+       We also use a data attribute so our JavaScript can find this specific day.
+    */
+    <div 
+      class={`hourly-day-wrapper ${dayForecast.dayId !== 0 ? 'is-hidden' : ''}`} 
+      data-hourly-id={dayForecast.dayId}
+    >
+      <div class="hours-grid">
+        {dayForecast.hours.map((item) => (
+          <div class="hour-card">
+            <span class="time">{item.time}</span>
+            <span class="temp">{item.temp}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style lang="scss">
+  .hours-grid {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto; /* Adds a nice scroll bar on mobile if the cards overflow */
+  }
+
+  .hour-card {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 80px;
+    color: #000000; 
+
+  }
+
+  /* The magic utility class to hide the days the user didn't click */
+  .is-hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // This script runs completely inside the user's browser
+  window.addEventListener('dayChanged', (e: any) => {
+    const clickedDayId = e.detail.dayId;
+    
+    // Find all our hourly wrappers
+    const wrappers = document.querySelectorAll('.hourly-day-wrapper');
+    
+    wrappers.forEach((wrapper) => {
+      const wrapperId = wrapper.getAttribute('data-hourly-id');
+      
+      if (wrapperId === clickedDayId) {
+        // Show the wrapper that matches the clicked day card
+        wrapper.classList.remove('is-hidden');
+      } else {
+        // Hide all the other ones
+        wrapper.classList.add('is-hidden');
+      }
+    });
+  });
+</script>

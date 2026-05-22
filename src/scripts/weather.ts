@@ -1,6 +1,6 @@
 import { createIcons, Star } from 'lucide'
 
-import { WEATHER_CODE_GROUPS, WEATHER_CODE_MAP, WEATHER_IMAGE_MAP } from '@/constants'
+import { WEATHER_CODE_GROUPS, WEATHER_CODE_MAP, WEATHER_ICON_MAP, WEATHER_IMAGE_MAP } from '@/constants'
 import { getUserLocation } from '@/services/geo'
 import { getWeather } from '@/services/weatherApi'
 import type { City } from '@/types/city'
@@ -19,19 +19,23 @@ function getWeatherGroup(code: WeatherCode): WeatherGroup | null {
 function setBackgroundImage(group: WeatherGroup, isDay: IsDay) {
   const card = document.querySelector<HTMLElement>('.current-weather')
   if (!card) return
+  
   card.style.setProperty('--bg-image', `url(${WEATHER_IMAGE_MAP[group][isDay]})`)
 }
 
-function setWeatherIcon(code: WeatherCode) {
+function setWeatherIcon(code: WeatherCode, isDay: IsDay) {
   const img = document.querySelector<HTMLImageElement>('#weather-icon')
   if (!img) return
-  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${WEATHER_CODE_MAP[code].icon}.svg`
-  img.alt = WEATHER_CODE_MAP[code].label
+  
+  const iconName = WEATHER_ICON_MAP[code][isDay]
+  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${iconName}.svg`
+  img.alt = WEATHER_CODE_MAP[code]
 }
 
 function updateFavoriteButton(coordinates: string) {
   const btn = document.querySelector<HTMLButtonElement>('#favorite-btn')
   if (!btn) return
+  
   btn.dataset.favorited = String(hasFavorite(coordinates))
 }
 
@@ -76,17 +80,24 @@ export async function updateWeather({ latitude, longitude, city, country }: Loca
     setText('temperature', `${current.temperature_2m}°C`)
     setText('temp-max', `${daily.temperature_2m_max[0]}°C`)
     setText('temp-min', `${daily.temperature_2m_min[0]}°C`)
-    setText('condition', WEATHER_CODE_MAP[current.weather_code].label)
+    setText('condition', WEATHER_CODE_MAP[current.weather_code])
     setText('humidity', `${current.relative_humidity_2m}%`)
     setText('wind-speed', `${current.wind_speed_10m} km/h`)
     setText('precipitation', `${hourly.precipitation_probability[index]}%`)
     setText('uv-index', `${hourly.uv_index[index]}`)
 
     const group = getWeatherGroup(current.weather_code)
-
     if (group) setBackgroundImage(group, current.is_day)
 
-    setWeatherIcon(current.weather_code)
+    setWeatherIcon(current.weather_code, current.is_day)
+
+    // Update the DailyForecast and HourlyForecast components
+    if ((window as any).updateDailyForecast) {
+      (window as any).updateDailyForecast(weather)
+    }
+    if ((window as any).updateHourlyForecast) {
+      (window as any).updateHourlyForecast(weather)
+    }
   } catch (error) {
     console.error(error)
     setText('condition', 'Failed to load weather')

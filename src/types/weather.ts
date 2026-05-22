@@ -33,6 +33,8 @@ type CurrentUnits = {
 
 type HourlyUnits = {
   time: string                              // Format of the time value (e.g. iso8601)
+  temperature_2m: string                    // Unit of the temperature value (e.g. °C)
+  weather_code: string                      // Unit of the weather code value (e.g. wmo code)
   precipitation_probability: string         // Unit of the precipitation probability value (e.g. %)
   uv_index: string                          // Unit of the UV index value
 }
@@ -60,6 +62,8 @@ export type WeatherResponse = {
   hourly_units: HourlyUnits
   hourly: {
     time: string[]                          // Array of ISO8601 timestamps for each hourly data point
+    temperature_2m: number[]                // Temperature at 2 meters for each hour (°C)
+    weather_code: WeatherCode[]             // Weather condition code for each hour
     precipitation_probability: number[]     // Probability of precipitation with more than 0.1mm per hour (%)
     uv_index: number[]                      // UV index at the surface, considering clouds
   }
@@ -68,10 +72,12 @@ export type WeatherResponse = {
     time: string
     temperature_2m_max: string
     temperature_2m_min: string
+    weather_code: string
   }
   daily: {
     time: string[]                          // Array of dates (YYYY-MM-DD) for each daily data point
     temperature_2m_max: number[]            // Maximum daily temperature at 2 meters (°C)
     temperature_2m_min: number[]            // Minimum daily temperature at 2 meters (°C)
+    weather_code: WeatherCode[]             // Weather condition code for each day
   }
 }
