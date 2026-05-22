@@ -76,8 +76,8 @@ if (input && results) {
       item.appendChild(star);
 
       item.addEventListener('click', () => {
-        (window as unknown as { updateWeather: ({ latitude, longitude, city }: Location) => Promise<void> }).updateWeather(
-          { latitude: city.lat, longitude: city.lng, city: city.name }
+        (window as unknown as { updateWeather: ({ latitude, longitude, city, country }: Location) => Promise<void> }).updateWeather(
+          { latitude: city.lat, longitude: city.lng, city: city.name, country: city.country }
         );
       });
 
@@ -94,8 +94,8 @@ if (dropdown) {
 
     const city: City = JSON.parse(target.value);
 
-    (window as unknown as { updateWeather: ({ latitude, longitude, city }: Location) => Promise<void> }).updateWeather(
-      { latitude: city.lat, longitude: city.lng, city: city.name }
+    (window as unknown as { updateWeather: ({ latitude, longitude, city, country }: Location) => Promise<void> }).updateWeather(
+      { latitude: city.lat, longitude: city.lng, city: city.name, country: city.country }
     );
   });
 }

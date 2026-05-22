@@ -1,4 +1,4 @@
-import type { Location } from '../types/location';
+import type { Location } from '@/types/location';
 
 export function getUserLocation(): Promise<Location> {
   return new Promise((resolve) => {
@@ -7,6 +7,7 @@ export function getUserLocation(): Promise<Location> {
         latitude: 49.2827,
         longitude: -123.1207,
         city: 'Vancouver',
+        country: 'Canada',
       });
 
       return;
@@ -24,6 +25,7 @@ export function getUserLocation(): Promise<Location> {
           latitude: 49.2827,
           longitude: -123.1207,
           city: 'Vancouver',
+          country: 'Canada',
         });
       }
     );
