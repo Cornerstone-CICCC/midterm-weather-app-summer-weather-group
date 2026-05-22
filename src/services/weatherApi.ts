@@ -12,6 +12,8 @@ const CURRENT_PARAMS = [
 ];
 
 const HOURLY_PARAMS = [
+  'temperature_2m',            // Temperature at 2 meters for hourly forecast (°C)
+  'weather_code',              // Weather condition code for each hour
   'precipitation_probability', // Probability of precipitation with more than 0.1mm (%)
   'uv_index',                  // UV index at the surface, considering clouds
 ];
@@ -19,6 +21,7 @@ const HOURLY_PARAMS = [
 const DAILY_PARAMS = [
   'temperature_2m_max', // Maximum daily air temperature at 2 meters above ground (°C)
   'temperature_2m_min', // Minimum daily air temperature at 2 meters above ground (°C)
+  'weather_code',       // Most severe weather code for the day
 ];
 
 export async function getWeather(
@@ -31,7 +34,7 @@ export async function getWeather(
   url.searchParams.append('current', CURRENT_PARAMS.join(','));
   url.searchParams.append('hourly', HOURLY_PARAMS.join(','));
   url.searchParams.append('daily', DAILY_PARAMS.join(','));
-  url.searchParams.append('forecast_days', '1');
+  url.searchParams.append('forecast_days', '5');
   url.searchParams.append('timezone', 'auto');
 
   const response = await fetch(url);
