@@ -26,3 +26,18 @@ export function addFavorite(city: City) {
 
   return updated;
 }
+
+export function hasFavorite(coordinates: string): boolean {
+  const current = getFavorites();
+  return current.some((c) => c.coordinates === coordinates);
+}
+
+export function removeFavorite(coordinates: string): void {
+  const current = getFavorites();
+  const updated = current.filter((c) => c.coordinates !== coordinates);
+  if (!updated.length) {
+    localStorage.removeItem(KEY);
+    return;
+  };
+  saveFavorites(updated);
+}
