@@ -11,15 +11,18 @@ function getWeatherGroup(code: WeatherCode): WeatherGroup | null {
 }
 
 function setBackgroundImage(group: WeatherGroup, isDay: IsDay) {
-  document.body.style.backgroundImage = `url(${WEATHER_IMAGE_MAP[group][isDay]})`
+  const card = document.querySelector<HTMLElement>('.current-weather')
+  if (!card) return
+  card.style.setProperty('--bg-image', `url(${WEATHER_IMAGE_MAP[group][isDay]})`)
 }
 
-function setWeatherIcon(code: WeatherCode) {
+function setWeatherIcon(code: WeatherCode, isDay: IsDay) {
   const img = document.querySelector<HTMLImageElement>('#weather-icon')
 
   if (!img) return
 
-  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${WEATHER_CODE_MAP[code].icon}.svg`
+  const iconName = WEATHER_CODE_MAP[code].icon
+  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${iconName}.svg`
   img.alt = WEATHER_CODE_MAP[code].label
 }
 
@@ -31,14 +34,14 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
     const now = new Date(current.time)
     const hourIndex = hourly.time.findIndex((t) => new Date(t) >= now)
     const index = hourIndex === -1 ? 0 : hourIndex
-    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 
     setText('city-name', city ?? '--')
     setText('weather-time', timeStr)
     setText('temperature', `${current.temperature_2m}°C`)
     setText('temp-max', `${daily.temperature_2m_max[0]}°C`)
     setText('temp-min', `${daily.temperature_2m_min[0]}°C`)
-    setText('condition', WEATHER_CODE_MAP[current.weather_code].label)
+    setText('condition', WEATHER_CODE_MAP[current.weather_code].icon)
     setText('humidity', `${current.relative_humidity_2m}%`)
     setText('wind-speed', `${current.wind_speed_10m} km/h`)
     setText('precipitation', `${hourly.precipitation_probability[index]}%`)
@@ -48,7 +51,7 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
 
     if (group) setBackgroundImage(group, current.is_day)
 
-    setWeatherIcon(current.weather_code)
+    setWeatherIcon(current.weather_code, current.is_day)
   } catch (error) {
     console.error(error)
     setText('condition', 'Failed to load weather')
@@ -64,7 +67,7 @@ async function init() {
   }
 }
 
-init();
+init()
 
-// Expose the updateWeather function to the global scope
-(window as unknown as { updateWeather: typeof updateWeather }).updateWeather = updateWeather
+// ⭐ IMPORTANT | Expose the updateWeather function to the global scope
+;(window as unknown as { updateWeather: typeof updateWeather }).updateWeather = updateWeather

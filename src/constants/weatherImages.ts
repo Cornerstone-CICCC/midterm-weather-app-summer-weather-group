@@ -3,7 +3,7 @@ import type { IsDay, WeatherGroup } from '@/types/weather'
 export const WEATHER_IMAGE_MAP: Record<WeatherGroup, Record<IsDay, string>> = {
   'Clear sky': {
     0: 'https://images.unsplash.com/photo-1477840539360-4a1d23071046?auto=format&fit=crop&w=1440&q=80',
-    1: 'https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=1440&q=80',
+    1: 'https://images.unsplash.com/photo-1558418294-9da149757efe?auto=format&fit=crop&w=1440&q=80',
   },
   'Mainly clear': {
     0: 'https://images.unsplash.com/photo-1628725022723-00a47a683320?auto=format&fit=crop&w=1440&q=80',
