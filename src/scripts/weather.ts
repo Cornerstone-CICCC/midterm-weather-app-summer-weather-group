@@ -54,6 +54,14 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
     if (group) setBackgroundImage(group, current.is_day)
 
     setWeatherIcon(current.weather_code, current.is_day)
+
+    // Update the DailyForecast and HourlyForecast components
+    if ((window as any).updateDailyForecast) {
+      (window as any).updateDailyForecast(weather)
+    }
+    if ((window as any).updateHourlyForecast) {
+      (window as any).updateHourlyForecast(weather)
+    }
   } catch (error) {
     console.error(error)
     setText('condition', 'Failed to load weather')

@@ -1,49 +1,190 @@
 ---
-// src/components/DailyForecast.astro
-// Mock data representing the 5-day forecast array from Open-Meteo
-const days = [
-  { date: 'Monday', temp: '18°C', condition: 'Sunny', id: 0 },
-  { date: 'Tuesday', temp: '15°C', condition: 'Rainy', id: 1 },
-  { date: 'Wednesday', temp: '16°C', condition: 'Cloudy', id: 2 },
-  { date: 'Thursday', temp: '21°C', condition: 'Sunny', id: 3 },
-  { date: 'Friday', temp: '19°C', condition: 'Partly Cloudy', id: 4 },
-];
+// No props needed - component will be updated via JavaScript
 ---
 
-<div class="daily-forecast-container">
-  {days.map((day) => (
-    <button class="day-card" data-day-id={day.id}>
-      <h3>{day.date}</h3>
-      <div class="icon">{day.condition}</div>
-      <p>{day.temp}</p>
-    </button>
-  ))}
+<div class="daily-forecast">
+  <h2 class="daily-forecast__title">5-Day Forecast</h2>
+  <div class="daily-forecast__container" id="daily-forecast-container">
+    <!-- Daily forecast cards will be dynamically inserted here -->
+  </div>
 </div>
 
 <style lang="scss">
-  // Use the global SCSS tokens your captain set up here
-  .daily-forecast-container {
+  @use '@/styles/abstracts/variables' as *;
+
+  .daily-forecast {
+    margin-top: $spacing-xl;
+
+    &__title {
+      font-size: $font-size-lg;
+      font-weight: bold;
+      color: $text-color;
+      margin-bottom: $spacing-md;
+      text-align: center;
+    }
+
+    &__container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: $spacing-md;
+
+      @media (max-width: $tablet) {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: $spacing-sm;
+      }
+    }
+  }
+
+  .day-card {
     display: flex;
-    gap: 1rem;
-    // Add your desktop 1440px styles and mobile 375px media queries
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-md;
+    background: $surface-color;
+    border-radius: $radius-md;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: $spacing-sm;
+
+    &:hover {
+      background: rgba($primary-color, 0.1);
+      border-color: $primary-color;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background: rgba($primary-color, 0.2);
+      border-color: $primary-color;
+    }
+
+    &__date {
+      font-size: $font-size-sm;
+      color: $text-muted;
+      font-weight: 500;
+    }
+
+    &__icon {
+      width: 48px;
+      height: 48px;
+      filter: brightness(0) invert(1);
+    }
+
+    &__temp {
+      font-size: $font-size-md;
+      font-weight: bold;
+      color: $text-color;
+    }
+
+    &__condition {
+      font-size: $font-size-sm;
+      color: $text-muted;
+      text-align: center;
+    }
+
+    @media (max-width: $mobile) {
+      padding: $spacing-sm;
+      gap: $spacing-xs;
+
+      &__icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      &__date, &__condition {
+        font-size: 11px;
+      }
+
+      &__temp {
+        font-size: $font-size-sm;
+      }
+    }
   }
 </style>
 
-
 <script>
-  const dayCards = document.querySelectorAll('.day-card');
-  
-  dayCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      const selectedDayId = card.getAttribute('data-day-id');
-      
-      // Custom Event to notify the HourlyForecast component to update
-      const event = new CustomEvent('dayChanged', { detail: { dayId: selectedDayId } });
-      window.dispatchEvent(event);
-      
-      // Optional: Add an 'active' class for styling the selected card
-      dayCards.forEach(c => c.classList.remove('active'));
+  import type { WeatherResponse, WeatherCode, IsDay } from '@/types/weather';
+  import { WEATHER_CODE_MAP, WEATHER_ICON_MAP } from '@/constants';
+
+  const container = document.getElementById('daily-forecast-container');
+
+  function getDayName(dateString: string, index: number): string {
+    const date = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+
+    if (index === 0) return 'Today';
+    if (index === 1) return 'Tomorrow';
+    
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
+  }
+
+  function createDayCard(
+    date: string, 
+    tempMax: number, 
+    tempMin: number, 
+    weatherCode: WeatherCode,
+    dayIndex: number
+  ): HTMLElement {
+    const card = document.createElement('button');
+    card.className = 'day-card';
+    card.setAttribute('data-day-id', String(dayIndex));
+    
+    if (dayIndex === 0) {
       card.classList.add('active');
+    }
+
+    const dayName = getDayName(date, dayIndex);
+    const condition = WEATHER_CODE_MAP[weatherCode];
+    const iconName = WEATHER_ICON_MAP[weatherCode][1 as IsDay]; // Use day icon for daily forecast
+    const iconUrl = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${iconName}.svg`;
+
+    card.innerHTML = `
+      <span class="day-card__date">${dayName}</span>
+      <img class="day-card__icon" src="${iconUrl}" alt="${condition}" />
+      <span class="day-card__temp">${Math.round(tempMax)}° / ${Math.round(tempMin)}°</span>
+      <span class="day-card__condition">${condition}</span>
+    `;
+
+    card.addEventListener('click', () => {
+      // Remove active class from all cards
+      document.querySelectorAll('.day-card').forEach(c => c.classList.remove('active'));
+      // Add active class to clicked card
+      card.classList.add('active');
+
+      // Dispatch custom event to notify HourlyForecast component
+      const event = new CustomEvent('dayChanged', { 
+        detail: { dayId: dayIndex, date: date } 
+      });
+      window.dispatchEvent(event);
     });
-  });
+
+    return card;
+  }
+
+  export function updateDailyForecast(weatherData: WeatherResponse) {
+    if (!container) return;
+
+    // Clear existing cards
+    container.innerHTML = '';
+
+    const { daily } = weatherData;
+    
+    // Create a card for each of the 5 days
+    daily.time.forEach((date, index) => {
+      const card = createDayCard(
+        date,
+        daily.temperature_2m_max[index],
+        daily.temperature_2m_min[index],
+        daily.weather_code[index],
+        index
+      );
+      container.appendChild(card);
+    });
+  }
+
+  // Expose function globally so weather.ts can call it
+  (window as any).updateDailyForecast = updateDailyForecast;
 </script>
