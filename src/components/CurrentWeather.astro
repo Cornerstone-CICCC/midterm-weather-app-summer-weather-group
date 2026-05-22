@@ -1,0 +1,176 @@
+---
+---
+
+<div class="current-weather">
+
+  <div class="current-weather__header">
+    <p class="current-weather__city" id="city-name">--</p>
+  </div>
+
+  <div class="current-weather__temperatures">
+    <div class="current-weather__temp-item">
+      <span class="current-weather__temp-label">Low</span>
+      <span class="current-weather__temp-value" id="temp-min">--</span>
+    </div>
+    <span class="current-weather__temp" id="temperature">--</span>
+    <div class="current-weather__temp-item">
+      <span class="current-weather__temp-label">High</span>
+      <span class="current-weather__temp-value" id="temp-max">--</span>
+    </div>
+  </div>
+
+  <div class="current-weather__info">
+    <p class="current-weather__time" id="weather-time">--</p>
+    <img class="current-weather__icon" id="weather-icon" src="" alt="" />
+    <p class="current-weather__condition" id="condition">--</p>
+  </div>
+
+  <ul class="current-weather__details">
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Humidity</span>
+      <span class="current-weather__detail-value" id="humidity">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Wind</span>
+      <span class="current-weather__detail-value" id="wind-speed">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">Precipitation</span>
+      <span class="current-weather__detail-value" id="precipitation">--</span>
+    </li>
+    <li class="current-weather__detail-item">
+      <span class="current-weather__detail-label">UV Index</span>
+      <span class="current-weather__detail-value" id="uv-index">--</span>
+    </li>
+  </ul>
+
+</div>
+
+<style lang="scss" is:global>
+  @use '@/styles/abstracts/variables' as *;
+
+  .current-weather {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $text-color;
+    border-radius: $radius-md;
+    padding: $spacing-xl;
+    box-shadow: $shadow-md;
+    background-color: $surface-color;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    gap: $spacing-lg;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: $radius-md;
+    }
+
+    & > * {
+      position: relative;
+    }
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-md;
+      width: 100%;
+    }
+
+    &__city {
+      font-size: $font-size-lg;
+      font-weight: bold;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 1px;
+        background-color: $text-color;
+        margin: $spacing-sm auto 0;
+      }
+    }
+
+    &__temperatures {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-xl;
+    }
+
+    &__temp {
+      font-size: $font-size-2xl;
+      font-weight: bold;
+    }
+
+    &__temp-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-xs;
+    }
+
+    &__temp-label {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+
+    &__temp-value {
+      font-size: $font-size-md;
+      font-weight: bold;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__time {
+      font-size: $font-size-md;
+      color: $text-color;
+    }
+
+    &__icon {
+      width: 64px;
+      height: 64px;
+      filter: brightness(0) invert(1);
+    }
+
+    &__condition {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+
+    &__details {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-md $spacing-xl;
+    }
+
+    &__detail-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-xs;
+    }
+
+    &__detail-label {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+
+    &__detail-value {
+      font-size: $font-size-md;
+      font-weight: bold;
+    }
+  }
+</style>
