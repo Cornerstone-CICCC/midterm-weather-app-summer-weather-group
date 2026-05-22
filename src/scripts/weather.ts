@@ -1,6 +1,6 @@
 import { getUserLocation } from '@/services/geo'
 import { getWeather } from '@/services/weatherApi'
-import { WEATHER_CODE_MAP, WEATHER_CODE_GROUPS, WEATHER_IMAGE_MAP, WEATHER_ICON_MAP } from '@/constants'
+import { WEATHER_CODE_MAP, WEATHER_CODE_GROUPS, WEATHER_IMAGE_MAP } from '@/constants'
 import type { Location } from '@/types/location'
 import type { IsDay, WeatherCode, WeatherGroup } from '@/types/weather'
 import { setText } from '@/utils/setText'
@@ -14,14 +14,13 @@ function setBackgroundImage(group: WeatherGroup, isDay: IsDay) {
   document.body.style.backgroundImage = `url(${WEATHER_IMAGE_MAP[group][isDay]})`
 }
 
-function setWeatherIcon(code: WeatherCode, isDay: IsDay) {
+function setWeatherIcon(code: WeatherCode) {
   const img = document.querySelector<HTMLImageElement>('#weather-icon')
 
   if (!img) return
 
-  const iconName = WEATHER_ICON_MAP[code][isDay]
-  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${iconName}.svg`
-  img.alt = WEATHER_CODE_MAP[code]
+  img.src = `https://cdn.jsdelivr.net/npm/@meteocons/svg/fill/${WEATHER_CODE_MAP[code].icon}.svg`
+  img.alt = WEATHER_CODE_MAP[code].label
 }
 
 export async function updateWeather({ latitude, longitude, city }: Location) {
@@ -39,7 +38,7 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
     setText('temperature', `${current.temperature_2m}°C`)
     setText('temp-max', `${daily.temperature_2m_max[0]}°C`)
     setText('temp-min', `${daily.temperature_2m_min[0]}°C`)
-    setText('condition', WEATHER_CODE_MAP[current.weather_code])
+    setText('condition', WEATHER_CODE_MAP[current.weather_code].label)
     setText('humidity', `${current.relative_humidity_2m}%`)
     setText('wind-speed', `${current.wind_speed_10m} km/h`)
     setText('precipitation', `${hourly.precipitation_probability[index]}%`)
@@ -49,7 +48,7 @@ export async function updateWeather({ latitude, longitude, city }: Location) {
 
     if (group) setBackgroundImage(group, current.is_day)
 
-    setWeatherIcon(current.weather_code, current.is_day)
+    setWeatherIcon(current.weather_code)
   } catch (error) {
     console.error(error)
     setText('condition', 'Failed to load weather')
