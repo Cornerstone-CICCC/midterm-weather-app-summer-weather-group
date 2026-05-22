@@ -15,7 +15,7 @@ export function addFavorite(city: City) {
   const current = getFavorites();
 
   const exists = current.some(
-    (c) => c.name === city.name
+    (c) => c.coordinates === city.coordinates
   );
 
   if (exists) return current;

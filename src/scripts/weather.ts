@@ -43,7 +43,6 @@ function setupFavoriteButton(city: City) {
   const btn = document.querySelector<HTMLButtonElement>('#favorite-btn')
   if (!btn) return
 
-  console.log('✅️ btn', btn)
   updateFavoriteButton(city.coordinates)
   btn.onclick = () => {
     if (hasFavorite(city.coordinates)) {
