@@ -20,85 +20,84 @@ import '../styles/global.css'
 				Logo
 			</div>
 			<div class="searchBar">
-				<input class="inputCity" placeholder="Search city" id="searchBar"/>
+				<input class="inputCity" placeholder="Search city" id="searchBar1"/>
 				<div class="switchThemes" id="switchTheme">Light/Dark</div>
 			</div>
 		</div>
+		<ul id="dropdown" class="dropDownCity">
+		</ul>
 		<div class="mainContent">
 			<div class="infoBar">
 				<div class="cityAndFav">
-					<div class="cityName">City name</div>
-					<div class="makeFav" id="makeFav">Fav</div>
+					<div class="cityName" id="cityNameID">City name</div>
+					<div class="makeFav" id="makeFavId">Fav</div>
 				</div>
 				<div class="favorites">
 					<div class="menu-container">
   						<details class="menu-item">
     						<summary>Favorites</summary>
     							<div class="menu-content" id="favoritesDropdown">
-      								<div class="cityItem" id = "Semantic Elements" data-index="100">Semantic Elements<button class="removeCity">X</button></div>
-      								<div class="cityItem" id = "Modern CSS Layouts">Modern CSS Layoutss<button class="removeCity">X</button></div>
-      								<div class="cityItem" id = "JavaScript ES6+">JavaScript ES6+<button class="removeCity">X</button></div>
     							</div>
   						</details>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="fiveDays hidden">
+		<div class="fiveDays hidden" id="fiveDaysId">
 			<div class="eachDay" id="day1" data-index="0">
 				<input class="radioDay" type="radio" id="day1Radio" name="radioCB">
 				<label class="radioLabel" for="day1Radio">
-					<div>Day</div>
-					<div>Date</div>
-					<div>small pic</div>
-					<div>short desc</div>
-					<div>temp</div>
+					<div class="dayInfo">Day</div>
+					<div class="dayInfo">Date</div>
+					<div class="dayInfo">small pic</div>
+					<div class="dayInfo">short desc</div>
+					<div class="dayInfo">temp</div>
 				</label>				
 			</div>
 			<div class="eachDay" id="day2" data-index="1">
 				<input class="radioDay" type="radio" id="day2Radio" name="radioCB">
 				<label class="radioLabel" for="day2Radio">
-					<div>Day</div>
-					<div>Date</div>
-					<div>small pic</div>
-					<div>short desc</div>
-					<div>temp</div>
+					<div class="dayInfo">Day</div>
+					<div class="dayInfo">Date</div>
+					<div class="dayInfo">small pic</div>
+					<div class="dayInfo">short desc</div>
+					<div class="dayInfo">temp</div>
 				</label>
 			</div>
 			<div class="eachDay" id="day3" data-index="2">
 				<input class="radioDay" type="radio" id="day3Radio" name="radioCB">
 				<label class="radioLabel" for="day3Radio">
-					<div>Day</div>
-					<div>Date</div>
-					<div>small pic</div>
-					<div>short desc</div>
-					<div>temp</div>
+					<div class="dayInfo">Day</div>
+					<div class="dayInfo">Date</div>
+					<div class="dayInfo">small pic</div>
+					<div class="dayInfo">short desc</div>
+					<div class="dayInfo">temp</div>
 				</label>
 			</div>
 			<div class="eachDay" id="day4" data-index="3">
 				<input class="radioDay" type="radio" id="day4Radio" name="radioCB">
 				<label class="radioLabel" for="day4Radio">
-					<div>Day</div>
-					<div>Date</div>
-					<div>small pic</div>
-					<div>short desc</div>
-					<div>temp</div>
+					<div class="dayInfo">Day</div>
+					<div class="dayInfo">Date</div>
+					<div class="dayInfo">small pic</div>
+					<div class="dayInfo">short desc</div>
+					<div class="dayInfo">temp</div>
 				</label>
 
 			</div>
 			<div class="eachDay" id="day5" data-index="4">
 				<input class="radioDay" type="radio" id="day5Radio" name="radioCB">
 				<label class="radioLabel" for="day5Radio">
-					<div>Day</div>
-					<div>Date</div>
-					<div>small pic</div>
-					<div>short desc</div>
-					<div>temp</div>
+					<div class="dayInfo">Day</div>
+					<div class="dayInfo">Date</div>
+					<div class="dayInfo">small pic</div>
+					<div class="dayInfo">short desc</div>
+					<div class="dayInfo">temp</div>
 				</label>
 			</div>
 
 		</div>
-		<div class="eightIntervals hidden">
+		<div class="eightIntervals hidden" id="eightIntervalsID">
 			<div class="eachInterval" id="int1" data-index="10">
 				<input class="radioDay" type="radio" id="int1Radio" name="radioIntCB">
 				<label class="radioLabel" for="int1Radio">
@@ -174,11 +173,11 @@ import '../styles/global.css'
 		</div>
 	</body>
 	<script>
-import { config, string } from "astro:schema";
+import { config, date, literal, string } from "astro:schema";
 import { fade } from "astro:transitions";
 
 		document.addEventListener("DOMContentLoaded", function() {
-
+			
 			//switch themes
 			const btnSwitchTheme = document.getElementById("switchTheme");
 			btnSwitchTheme?.addEventListener("click", function(){
@@ -190,41 +189,485 @@ import { fade } from "astro:transitions";
 			//add cities to fav list
 			const favList = document.getElementById("favoritesDropdown");
 			let opt = "";
-			//search bar press enter
-			const searchBar = document.getElementById("searchBar") as HTMLInputElement;
+
+			const searchBar = document.getElementById("searchBar1") as HTMLInputElement;
 			searchBar?.addEventListener("keypress", (e)=>{
 				if (e.key === "Enter") {
 					//??alert user that city is added to fav list??
 					//confirm("press");
 					let search = searchBar.value;
 					opt = `<div class="cityItem">${search}`;
-					opt += `<button class="removeCity">X</button></div>`;
-					//favList.innerHTML += opt;
-					addToList(search, opt);
-            		//runSearch();
+            		runSearch();
         		}
 			});
 			document.addEventListener('click', (event) => {
-  			if (event.target.matches('.removeCity')) {
+  			if (event?.target?.matches('.removeCity')) {
 				let button = event.target as HTMLButtonElement;
 				button.parentElement?.remove();
   			}
 			});
-			function addToList(addElement, opt):void{
-				let add = true;
+			function addToList(addElement : string):void {
+				let add = '<div class="cityItem">';
+				let check = true;
 				const elements = document.querySelectorAll('.cityItem');
 				elements.forEach(element => {
-					if(element.textContent.slice(0, -1)==addElement){
-						alert("City added");
-						add = false;
+					if(element.textContent.trim().slice(0, -1) == addElement){
+						alert("City already added");
+						check = false;
 						return;
 					}
 				});
-				if(add)
-					favList.innerHTML += opt;
+				if(check){
+					add += addElement;
+					add += `<button class="removeCity">X</button></div>`
+					addElement += `<button class="removeCity">X</button></div>`;
+					favList?.append(htmlToElement(add));
+				}
+					
 				else
 					return;
 			}
+
+			type LocationData = {
+  				administrative: string
+				administrativecode: string
+				city: string
+				coordinates: string
+				country: string
+				countrycode: string
+				county: string
+				countycode: string
+				highlight: string
+				lat: number
+				lng: number
+				name: string
+				population: number
+				type: string
+				zipcode: string[]
+			}
+
+			const weatherCodes = {
+				"0":{
+					"day":{
+						"description":"Sunny",
+						"image":"http://openweathermap.org/img/wn/01d@2x.png"
+					},
+					"night":{
+						"description":"Clear",
+						"image":"http://openweathermap.org/img/wn/01n@2x.png"
+					}
+				},
+				"1":{
+					"day":{
+						"description":"Mainly Sunny",
+						"image":"http://openweathermap.org/img/wn/01d@2x.png"
+					},
+					"night":{
+						"description":"Mainly Clear",
+						"image":"http://openweathermap.org/img/wn/01n@2x.png"
+					}
+				},
+				"2":{
+					"day":{
+						"description":"Partly Cloudy",
+						"image":"http://openweathermap.org/img/wn/02d@2x.png"
+					},
+					"night":{
+						"description":"Partly Cloudy",
+						"image":"http://openweathermap.org/img/wn/02n@2x.png"
+					}
+				},
+				"3":{
+					"day":{
+						"description":"Cloudy",
+						"image":"http://openweathermap.org/img/wn/03d@2x.png"
+					},
+					"night":{
+						"description":"Cloudy",
+						"image":"http://openweathermap.org/img/wn/03n@2x.png"
+					}
+				},
+				"45":{
+					"day":{
+						"description":"Foggy",
+						"image":"http://openweathermap.org/img/wn/50d@2x.png"
+					},
+					"night":{
+						"description":"Foggy",
+						"image":"http://openweathermap.org/img/wn/50n@2x.png"
+					}
+				},
+				"48":{
+					"day":{
+						"description":"Rime Fog",
+						"image":"http://openweathermap.org/img/wn/50d@2x.png"
+					},
+					"night":{
+						"description":"Rime Fog",
+						"image":"http://openweathermap.org/img/wn/50n@2x.png"
+					}
+				},
+				"51":{
+					"day":{
+						"description":"Light Drizzle",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Light Drizzle",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"53":{
+					"day":{
+						"description":"Drizzle",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Drizzle",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"55":{
+					"day":{
+						"description":"Heavy Drizzle",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Heavy Drizzle",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"56":{
+					"day":{
+						"description":"Light Freezing Drizzle",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Light Freezing Drizzle",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"57":{
+					"day":{
+						"description":"Freezing Drizzle",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Freezing Drizzle",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"61":{
+					"day":{
+						"description":"Light Rain",
+						"image":"http://openweathermap.org/img/wn/10d@2x.png"
+					},
+					"night":{
+						"description":"Light Rain",
+						"image":"http://openweathermap.org/img/wn/10n@2x.png"
+					}
+				},
+				"63":{
+					"day":{
+						"description":"Rain",
+						"image":"http://openweathermap.org/img/wn/10d@2x.png"
+					},
+					"night":{
+						"description":"Rain",
+						"image":"http://openweathermap.org/img/wn/10n@2x.png"
+					}
+				},
+				"65":{
+					"day":{
+						"description":"Heavy Rain",
+						"image":"http://openweathermap.org/img/wn/10d@2x.png"
+					},
+					"night":{
+						"description":"Heavy Rain",
+						"image":"http://openweathermap.org/img/wn/10n@2x.png"
+					}
+				},
+				"66":{
+					"day":{
+						"description":"Light Freezing Rain",
+						"image":"http://openweathermap.org/img/wn/10d@2x.png"
+					},
+					"night":{
+						"description":"Light Freezing Rain",
+						"image":"http://openweathermap.org/img/wn/10n@2x.png"
+					}
+				},
+				"67":{
+					"day":{
+						"description":"Freezing Rain",
+						"image":"http://openweathermap.org/img/wn/10d@2x.png"
+					},
+					"night":{
+						"description":"Freezing Rain",
+						"image":"http://openweathermap.org/img/wn/10n@2x.png"
+					}
+				},
+				"71":{
+					"day":{
+						"description":"Light Snow",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Light Snow",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"73":{
+					"day":{
+						"description":"Snow",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Snow",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"75":{
+					"day":{
+						"description":"Heavy Snow",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Heavy Snow",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"77":{
+					"day":{
+						"description":"Snow Grains",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Snow Grains",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"80":{
+					"day":{
+						"description":"Light Showers",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Light Showers",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"81":{
+					"day":{
+						"description":"Showers",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Showers",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"82":{
+					"day":{
+						"description":"Heavy Showers",
+						"image":"http://openweathermap.org/img/wn/09d@2x.png"
+					},
+					"night":{
+						"description":"Heavy Showers",
+						"image":"http://openweathermap.org/img/wn/09n@2x.png"
+					}
+				},
+				"85":{
+					"day":{
+						"description":"Light Snow Showers",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Light Snow Showers",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"86":{
+					"day":{
+						"description":"Snow Showers",
+						"image":"http://openweathermap.org/img/wn/13d@2x.png"
+					},
+					"night":{
+						"description":"Snow Showers",
+						"image":"http://openweathermap.org/img/wn/13n@2x.png"
+					}
+				},
+				"95":{
+					"day":{
+						"description":"Thunderstorm",
+						"image":"http://openweathermap.org/img/wn/11d@2x.png"
+					},
+					"night":{
+						"description":"Thunderstorm",
+						"image":"http://openweathermap.org/img/wn/11n@2x.png"
+					}
+				},
+				"96":{
+					"day":{
+						"description":"Light Thunderstorms With Hail",
+						"image":"http://openweathermap.org/img/wn/11d@2x.png"
+					},
+					"night":{
+						"description":"Light Thunderstorms With Hail",
+						"image":"http://openweathermap.org/img/wn/11n@2x.png"
+					}
+				},
+				"99":{
+					"day":{
+						"description":"Thunderstorm With Hail",
+						"image":"http://openweathermap.org/img/wn/11d@2x.png"
+					},
+					"night":{
+						"description":"Thunderstorm With Hail",
+						"image":"http://openweathermap.org/img/wn/11n@2x.png"
+					}
+				}
+			}
+
+			const input = document.getElementById('searchBar1');
+			const cityList = document.getElementById('dropdown');
+			cityList?.classList.add('hidden');
+			let cities;
+			const PLACES_API_KEY = "https://api.placekit.co/search";
+			let currentResults: LocationData[] = [];
+      		let selectedLocation: LocationData | undefined | null = undefined;
+			function renderDropdown(results : LocationData[]){
+				const dropdown = document.getElementById("dropdown");
+				dropdown.replaceChildren();
+				if(results.length===0){
+					dropdown.append(`<li>No results found</li>`);
+					dropdown?.classList.remove("hidden");
+					return;
+				}
+				const radios = document.querySelectorAll('input[name="radioCB"]');
+					radios.forEach(radio => radio.checked = false);
+				results.forEach((item : LocationData, index) =>{
+					const postal = item.zipcode && item.zipcode.length > 0 ? item.zipcode[0]:"=";
+					const li = `<li data-index="${index}">${item.name} (${postal})</li>`;
+					const element = htmlToElement(li);
+					dropdown?.append(element);
+					//console.log(item);
+					
+				})
+				dropdown?.classList.remove("hidden");
+				cities = results;
+			}
+
+			function htmlToElement(html) {
+  				const template = document.createElement('template');
+  				template.innerHTML = html.trim();
+  				return template.content.firstElementChild;
+			}
+
+			async function searchPlaces(query: string) {
+				const response = await fetch(PLACES_API_KEY, {
+          			method: "POST",
+          			headers: {
+            			"Content-Type": "application/json",
+           				"x-placekit-api-key":
+              			"pk_jxXvDSfDFgK702r0wxshJvHjdoLMd1Q7i+CHbYmE+HY=",
+        			},
+          			body: JSON.stringify({ query }),
+        		});
+				const data = await response.json();
+        		return data.results;
+			}
+
+			async function runSearch() {
+        		let query: string = (document.getElementById("searchBar1").value as string).trim();
+        			if (!query) {
+          				alert("Please enter a search query.");
+          				return;
+        			}
+        			document.getElementById("dropdown")?.classList.add("hidden");
+        			currentResults = await searchPlaces(query);
+			        renderDropdown(currentResults);
+      		}
+			let weather;
+			let liChild : HTMLInputElement;
+			document.getElementById('dropdown')?.addEventListener('click', async (e) =>{
+									
+				liChild = e.target.closest('li');
+				if (liChild){
+					let index = liChild.dataset.index;
+					weather = await getWeatherInfo(cities[index].lat, cities[index].lng);
+
+					document.getElementById('cityNameID').innerText = liChild.innerText;
+					const fiveDays = document.getElementById('fiveDaysId');
+					let dayCount = 0;
+					fiveDays.querySelectorAll('.dayInfo').forEach(async (element, i) => {
+						if (i>26){
+							i = 0;
+						}
+						if(!(i%5==0)){
+								element.innerHTML = `<div class="dayInfo">${weather.daily.time[dayCount]}</div>`;
+						}
+						if(i%5==1){
+							//element.innerHTML = `<div class="dayInfo"></div>`;
+						}
+						if(i%5==2){
+							element.innerHTML = `<div class="dayInfo"><img src="${weatherCodes[weather.daily.weather_code[dayCount]].day.image}"></div>`;
+						}
+						if(i%5==3){
+							element.innerHTML = `<div class="dayInfo">${weatherCodes[weather.daily.weather_code[dayCount]].day.description}</div>`;
+						}
+						if(i%5==4){
+							element.innerHTML = `<div class="dayInfo">${weather.daily.temperature_2m_max[dayCount]}</div>`;
+							dayCount++;
+						}
+						//console.log(i + " ");
+						//console.log(element);
+						if (i>25){i = 0;}
+					});
+					dayCount = 0;
+					document.getElementById("dropdown")?.classList.add('hidden');
+					fiveDays.classList.remove('hidden');
+
+					const each = document.querySelectorAll('.eachDay');
+					let intIndex = 0;
+					
+					for (let i = 0; i < 5; i++) {
+						each[i].addEventListener('click', ()=>{
+							populateIntervals(i);
+							document.getElementById('eightIntervalsID')?.classList.remove('hidden')
+						});
+					}
+				}
+
+				
+			})
+
+			function populateIntervals(index : number){
+				const eachInt = document.querySelectorAll('.eachInterval');
+				let divs;
+				let intervals = 0;
+				eachInt.forEach(element => {
+					divs = element.getElementsByTagName('div');
+					//divs[0].innerText = '';
+					divs[1].innerText = 'pic';
+					divs[2].innerText = 'desc';
+					divs[3].innerText = weather.hourly.temperature_2m[index * 24 + intervals];
+					intervals += 3;
+
+				});
+
+			}
+
+			async function getWeatherInfo(lat: number, lng: number) {
+          			const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,precipitation_sum,wind_speed_10m_max&hourly=temperature_2m,rain,wind_speed_10m&current=temperature_2m,rain,wind_speed_10m&timezone=auto&forecast_days=5`);
+        			const data = await response.json();
+					console.log(data);
+          			return data;
+       			}
+			document.getElementById('makeFavId')?.addEventListener('click', () =>{
+				addToList(liChild.innerText);
+			})
+
 		});
 		
 	</script>

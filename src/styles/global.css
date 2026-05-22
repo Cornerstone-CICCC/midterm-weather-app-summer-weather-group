@@ -31,6 +31,10 @@ body {
   gap: 0.5rem;
 }
 
+.searchBar:focus li {
+  display: unset;
+}
+
 .inputCity {
   font-family: inherit;
   font-size: 1rem;
@@ -54,6 +58,36 @@ body {
 
 .switchThemes:hover {
   cursor: pointer;
+}
+
+.dropDownCity {
+  display: flex;
+  flex-direction: column;
+  justify-self: end;
+  list-style: none; /* Removes the default bullet points */
+  padding: 0;
+  margin: 0%;
+  margin-right: 3rem;
+  width: 220px; /* Optional: restricts the width */
+  position: absolute;
+  z-index: 200;
+}
+
+.dropDownCity li {
+  padding: 10px 10px;
+  margin-bottom: 1px;
+  background-color: var(--bg-eightInt);
+  color: var(--text-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /*display: none;*/
+}
+
+.dropDownCity li:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+  padding-left: 18px;
 }
 
 .mainContent {
@@ -176,6 +210,10 @@ body {
 .hidden {
   display: none;
 }
+
+.unset {
+  display: unset;
+}
 /*
 .eachInterval:has(> input:checked) {
   background-color: var(--bg-seleced);
@@ -215,12 +253,6 @@ summary {
   border-radius: 12px 12px 0 0;
 }
 
-/* Safari-specific fix to hide the default browser arrow */
-summary::-webkit-details-marker {
-  display: none;
-}
-
-/* Custom interactive arrow indicator */
 summary::after {
   content: '→';
   font-size: 14px;
