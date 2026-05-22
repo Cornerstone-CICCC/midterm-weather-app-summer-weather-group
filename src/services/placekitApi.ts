@@ -1,15 +1,10 @@
-export type CityResult = {
-  name: string;
-  lat: number;
-  lng: number;
-  country: string;
-};
+import type { City, PlaceKitResponse } from '@/types/city'
 
 const API_KEY = import.meta.env.PUBLIC_PLACEKIT_API_KEY as string;
 
 export async function searchCities(
   query: string
-): Promise<CityResult[]> {
+): Promise<City[]> {
 
   if (!query.trim()) {
     return [];
@@ -38,12 +33,13 @@ export async function searchCities(
     throw new Error('Failed to fetch cities');
   }
 
-  const data = await response.json();
+  const data: PlaceKitResponse = await response.json()
 
-  return data.results.map((city: any) => ({
+  return data.results.map((city) => ({
     name: city.name,
     lat: city.lat,
     lng: city.lng,
     country: city.country,
+    coordinates: city.coordinates,
   }));
 }

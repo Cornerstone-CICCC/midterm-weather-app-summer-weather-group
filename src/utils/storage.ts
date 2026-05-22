@@ -1,21 +1,17 @@
-export type FavoriteCity = {
-  name: string;
-  lat: number;
-  lng: number;
-};
+import type { City } from "@/types/city";
 
 const KEY = 'favorite_cities';
 
-export function getFavorites(): FavoriteCity[] {
+export function getFavorites(): City[] {
   const data = localStorage.getItem(KEY);
   return data ? JSON.parse(data) : [];
 }
 
-export function saveFavorites(cities: FavoriteCity[]) {
+export function saveFavorites(cities: City[]) {
   localStorage.setItem(KEY, JSON.stringify(cities));
 }
 
-export function addFavorite(city: FavoriteCity) {
+export function addFavorite(city: City) {
   const current = getFavorites();
 
   const exists = current.some(

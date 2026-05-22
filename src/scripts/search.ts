@@ -3,7 +3,7 @@ import {
   getFavorites,
   addFavorite
 } from '@/utils/storage';
-import type { FavoriteCity } from '@/utils/storage';
+import type { City } from '@/types/city';
 import type { Location } from '@/types/location';
 
 const input =
@@ -35,7 +35,7 @@ function renderFavorites() {
   });
 }
 
-function createStar(city: any) {
+function createStar(city: City) {
   const star = document.createElement('button');
 
   star.textContent = '⭐';
@@ -44,10 +44,12 @@ function createStar(city: any) {
   star.style.cursor = 'pointer';
 
   star.addEventListener('click', () => {
-    const favorite: FavoriteCity = {
+    const favorite: City = {
       name: city.name,
       lat: city.lat,
       lng: city.lng,
+      country: city.country,
+      coordinates: city.coordinates,
     };
 
     addFavorite(favorite);
@@ -90,7 +92,7 @@ if (dropdown) {
 
     if (!target.value) return;
 
-    const city = JSON.parse(target.value);
+    const city: City = JSON.parse(target.value);
 
     (window as unknown as { updateWeather: ({ latitude, longitude, city }: Location) => Promise<void> }).updateWeather(
       { latitude: city.lat, longitude: city.lng, city: city.name }
